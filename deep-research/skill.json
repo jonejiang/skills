@@ -1,0 +1,128 @@
+{
+  "name": "deep-research",
+  "label": "深度调研",
+  "version": "2.0.0",
+  "description": "深度调研方法论（8步法+交叉验证）：将模糊主题转化为高质量调研报告。自动执行问题拆解、资料分层、事实抽取、框架对比、推导验证，输出可交付的结构化报告。",
+  "author": "jonejiang",
+  "license": "MIT",
+  "triggers": [
+    "深度调研", "深度研究", "深入分析", "帮我调研", "调研一下", "研究一下",
+    "对比分析", "概念对比", "技术对比", "写调研报告", "出调研报告",
+    "深度学术调研", "学术综述", "文献研究", "学术争议", "论文研究"
+  ],
+  "configSchema": {
+    "type": "object",
+    "properties": {
+      "workDir": {
+        "type": "string",
+        "default": "/tmp/research",
+        "description": "调研工作目录"
+      },
+      "enableVerification": {
+        "type": "boolean",
+        "default": true,
+        "description": "是否启用交叉验证"
+      },
+      "maxSources": {
+        "type": "number",
+        "default": 10,
+        "description": "最大查阅资料数量"
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "deep_research",
+      "description": "执行深度调研，包含8步法：问题拆解、资料分层、事实抽取、对比框架、参照对齐、推导链、用例验证、交付化处理",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "topic": {
+            "type": "string",
+            "description": "调研主题"
+          },
+          "researchType": {
+            "type": "string",
+            "enum": ["concept", "decision", "trend", "diagnostic", "knowledge", "academic"],
+            "description": "调研类型：概念对比、决策支持、趋势分析、问题诊断、知识梳理、学术研究"
+          },
+          "comparisonTarget": {
+            "type": "string",
+            "description": "对比目标（如比较 X vs Y 时填写 Y）"
+          },
+          "boundary": {
+            "type": "object",
+            "description": "研究边界界定",
+            "properties": {
+              "audience": { "type": "string", "description": "人群" },
+              "region": { "type": "string", "description": "地域" },
+              "time": { "type": "string", "description": "时间范围" },
+              "level": { "type": "string", "description": "层级" }
+            }
+          }
+        },
+        "required": ["topic"]
+      }
+    },
+    {
+      "name": "start_research",
+      "description": "开始一个新的调研项目，创建工作目录和初始文件",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "topic": {
+            "type": "string",
+            "description": "调研主题（将用作目录名）"
+          }
+        },
+        "required": ["topic"]
+      }
+    },
+    {
+      "name": "save_fact",
+      "description": "保存一条事实卡片",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "topic": {
+            "type": "string",
+            "description": "调研主题"
+          },
+          "fact": {
+            "type": "string",
+            "description": "事实陈述"
+          },
+          "source": {
+            "type": "string",
+            "description": "来源链接"
+          },
+          "confidence": {
+            "type": "string",
+            "enum": ["high", "medium", "low"],
+            "description": "置信度"
+          }
+        },
+        "required": ["topic", "fact", "source"]
+      }
+    },
+    {
+      "name": "generate_report",
+      "description": "生成最终调研报告",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "topic": {
+            "type": "string",
+            "description": "调研主题"
+          },
+          "reportType": {
+            "type": "string",
+            "enum": ["practical", "academic"],
+            "description": "报告类型：实用型或学术型"
+          }
+        },
+        "required": ["topic"]
+      }
+    }
+  ]
+}
